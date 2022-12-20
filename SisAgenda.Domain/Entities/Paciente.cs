@@ -8,11 +8,14 @@ namespace SisAgenda.Domain.Entities
         public string CNS { get; private set; }
         public bool Status { get; private set; }
 
-        public Paciente(string nome, string cNS)
+        public Paciente()
+        {
+            Status = true;
+        }
+        public Paciente(string nome, string cNS) : this()
         {
             Nome = nome;
             CNS = cNS;
-            Status = true;
         }
 
         public Paciente(int id, string nome, string cNS)

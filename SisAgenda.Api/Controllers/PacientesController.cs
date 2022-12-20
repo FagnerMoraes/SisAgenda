@@ -34,7 +34,7 @@ namespace SisAgenda.Api.Controllers
         }
 
         // POST api/<PacientesController>
-        [HttpPost]
+        [HttpPost("cadastro-paciente")]
         public async Task<ActionResult<int>> Post(Paciente paciente)
         {
             var codigo = (int)await _pacienteRepository.PostAsync(paciente);
