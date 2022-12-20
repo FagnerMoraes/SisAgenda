@@ -22,6 +22,6 @@ namespace SisAgenda.Data.Context
             .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        public DbSet<Paciente> Pacientes { get; set; }
+        public DbSet<Paciente> Pacientes { get; set; } = null!;
     }
 }

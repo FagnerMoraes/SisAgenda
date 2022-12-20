@@ -19,7 +19,7 @@ namespace SisAgenda.Api.Controllers
 
         // GET: api/<PacientesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Paciente>>> Get()
+        public async Task<ActionResult<IEnumerable<Paciente>>> GetAll()
         {
             var pacientes = await _pacienteRepository.GetAllAsync();
             return Ok(pacientes);
@@ -27,15 +27,18 @@ namespace SisAgenda.Api.Controllers
 
         // GET api/<PacientesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Paciente>> Get(int id)
         {
-            return "value";
+            var paciente = await _pacienteRepository.GetAsync(id);
+            return Ok(paciente);
         }
 
         // POST api/<PacientesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<int>> Post(Paciente paciente)
         {
+            var codigo = (int)await _pacienteRepository.PostAsync(paciente);
+            return CreatedAtAction(nameof(Get), new { id = codigo }, codigo);
         }
 
         // PUT api/<PacientesController>/5

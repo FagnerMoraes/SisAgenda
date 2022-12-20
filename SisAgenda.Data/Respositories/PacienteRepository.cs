@@ -2,34 +2,35 @@
 using SisAgenda.Data.Context;
 using SisAgenda.Domain.Entities;
 using SisAgenda.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SisAgenda.Data.Respositories
-{
+namespace SisAgenda.Data.Respositories;
     public class PacienteRepository : IPacienteRepository
+{
+    private readonly SADbContext _context;
+
+    public PacienteRepository(SADbContext context)
     {
-        private readonly SADbContext _context;
-
-        public PacienteRepository(SADbContext context)
-        {
-            _context = context;
-        }
+        _context = context;
+    }
 
 
-        public async Task<IEnumerable<Paciente>> GetAllAsync()
-        {
-            return await _context.Pacientes.ToListAsync();
-        }
+    public async Task<IEnumerable<Paciente>> GetAllAsync() =>
+        await _context.Pacientes.AsNoTracking().ToListAsync();
 
-        public async Task<object> PostAsync(Paciente paciente)
-        {
-            _context.Add(paciente);
-            await _context.SaveChangesAsync();
-            return paciente.Id;
-        }
+
+    public async Task<Paciente?> GetAsync(int id)
+    {
+        var paciente = await _context.Pacientes.FindAsync(id); 
+
+        if(paciente is null)
+            return null;
+        return paciente;
+    }
+
+    public async Task<object> PostAsync(Paciente paciente)
+    {
+        _context.Add(paciente);
+        await _context.SaveChangesAsync();
+        return paciente.Id;
     }
 }
